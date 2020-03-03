@@ -1,0 +1,25 @@
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          packages:
+            - cmake
+            - g++-4.9
+            - openssl
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+before_install:
+- eval "${MATRIX_EVAL}"
+
+before_script:
+- echo $(g++ --version)
+- mkdir RelWithDebInfo
+- cd RelWithDebInfo
+- cmake .. -DCMAKE_CXX_FLAGS="-std=c++11" -DCMAKE_BUILD_TYPE="RelWithDebInfo"
+
+script:
+- cmake --build .
